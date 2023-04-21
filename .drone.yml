@@ -1,0 +1,63 @@
+kind: pipeline
+type: docker
+name: vue-deploy
+
+steps: 
+- name: restore-cache
+  image: drillster/drone-volume-cache
+  pull: if-not-exists
+  volumes:
+    - name: cache
+      path: /cache  # fixed, can't be change
+  settings:
+    restore: true
+    mount:  # list of folders or files to cache
+      - ./.pnpm-store
+
+- name: install
+  image: node:18.13.0-slim
+  commands:
+    - corepack enable  # no pnpm installation required
+    - pnpm config set store-dir .pnpm-store
+    - pnpm i
+
+- name: rebuild-cache
+  image: drillster/drone-volume-cache
+  pull: if-not-exists
+  volumes:
+    - name: cache
+      path: /cache
+  settings:
+    rebuild: true
+    mount:
+      - ./.pnpm-store
+
+- name: build-dist
+  image: node:18.13.0-slim
+  commands:
+    - corepack enable
+    - pnpm build
+
+- name: deploy-docker
+  image: docker/compose
+  volumes: # 将容器内目录挂载到宿主机，仓库需要开启Trusted设置
+    - name: docker
+      path: /var/run/docker.sock # 挂载宿主机的docker
+  commands:
+    - docker-compose up -d --build 
+
+
+volumes:
+- name: cache
+  host:
+    path: /volume2/docker/drone/pnpm_cache
+- name: docker
+  host:
+    path: /var/run/docker.sock
+
+# 触发条件，git push即触发
+trigger:
+  branch:
+    - main
+  event:
+    - push
