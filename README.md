@@ -83,6 +83,8 @@ http://<你的域名或者公网IP>/wecom/getMessage
 
 然后点击下方的**保存**按钮，此时企业微信会根据以上的URL发送一个`Get`请求进行验证，验证通过后配置就会保存成功。
 
+最后，你就可以直接在企业微信app👉工作台里，跟ChatGPT进行开心的对话啦。
+
 ## 其他说明
 
 这个后端服务是通过直接调用`openai`库里提供的api，具体可以通过这里查看使用说明：[api-reference](https://platform.openai.com/docs/api-reference/completions/create)
