@@ -4,6 +4,7 @@
   "description": "一个搭载了chatgpt、用于企业微信应用消息接收和发送的Node服务",
   "author": "johnhom",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -19,7 +20,11 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "license": "UNLICENSED",
-  "keywords": ["chatgpt", "wecom", "nestjs"],
+  "keywords": [
+    "chatgpt",
+    "wecom",
+    "nestjs"
+  ],
   "homepage": "",
   "repository": "",
   "publishConfig": {
@@ -35,10 +40,14 @@
     "axios": "^1.3.6",
     "body-parser": "^1.20.2",
     "body-parser-xml": "^2.0.5",
+    "chatgpt": "^5.2.2",
     "fast-xml-parser": "^4.2.2",
+    "https-proxy-agent": "^5.0.1",
+    "node-fetch": "^3.3.1",
     "openai": "^3.2.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
+    "socks-proxy-agent": "^7.0.0",
     "xml2js": "^0.5.0"
   },
   "devDependencies": {

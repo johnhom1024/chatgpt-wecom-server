@@ -7,8 +7,8 @@ import {
   Logger,
   HttpCode,
 } from '@nestjs/common';
-import { WecomService } from './wecom.service';
-import { ChatGPTService } from 'src/chatgpt/chatgpt.service';
+import { WecomService } from './wecom.service.js';
+import { ChatGPTService } from '../chatgpt/chatgpt.service.js';
 
 @Controller('wecom')
 export class WecomController {

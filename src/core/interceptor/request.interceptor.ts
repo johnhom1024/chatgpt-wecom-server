@@ -9,6 +9,7 @@ import {
   ExecutionContext,
   Injectable,
   Logger,
+  Request,
   NestInterceptor,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
@@ -22,7 +23,7 @@ export class RequestInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const startTime = Date.now();
     const host = context.switchToHttp();
-    const request = host.getRequest<Request>();
+    const request = host.getRequest();
     const seq = requestSeq++;
     const urlInfo = `${request.method} ${request.url}`;
     this.logger.log(`[${seq}] ==> ${urlInfo}`);

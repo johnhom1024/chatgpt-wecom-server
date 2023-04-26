@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import * as bodyParser from 'body-parser';
-import * as parserXml from 'body-parser-xml';
+import bodyParser from 'body-parser';
+import parserXml from 'body-parser-xml';
 
 // 给 bodyParser对象加上一个xml方法
 parserXml(bodyParser);

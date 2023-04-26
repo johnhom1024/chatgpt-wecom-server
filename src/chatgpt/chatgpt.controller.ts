@@ -1,8 +1,8 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { ChatGPTService } from './chatgpt.service';
+import { ChatGPTService } from './chatgpt.service.js';
 
 @Controller('chatgpt')
-export class ChatgptController {
+export class ChatGPTController {
   constructor(private readonly chatGPTService: ChatGPTService) {}
 
   @Get()
