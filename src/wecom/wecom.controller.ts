@@ -49,7 +49,14 @@ export class WecomController {
     return data;
   }
 
-  @Post('getMessagev2')
+  @Get('getMessageV2')
+  async testGetMessageV2(@Query() query) {
+    const message = this.weCom.testGetMessage(query);
+
+    return message;
+  }
+
+  @Post('getMessageV2')
   @HttpCode(200)
   async getMessageV2(@Body('xml') xmlData, @Query() query) {
     const data = await this.weCom.getMessage(query, xmlData);
@@ -75,8 +82,11 @@ export class WecomController {
    */
   async replyUserV2({ message = '', touser }) {
     this.logger.log(
-      `存储的用户id以及message：${this.UserIdToParentMessageIdMap}`,
+      `存储的用户id以及message：`,
     );
+
+    this.logger.log(this.UserIdToParentMessageIdMap);
+    
     const parentMessageId = this.UserIdToParentMessageIdMap[touser] || '';
 
     // 根据拿到用户发送的消息，转发给 chatgpt

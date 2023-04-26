@@ -45,8 +45,11 @@ export class ChatGPTAPIService {
   }
 
   async sendMessage({ prompt = '', options }: MessageOptions) {
+    const { parentMessageId = '' } = options || {};
     try {
-      const res = await this.api.sendMessage(prompt);
+      const res = await this.api.sendMessage(prompt, {
+        parentMessageId,
+      });
       this.logger.log(res);
       const machineResponse = res.text;
       return {
