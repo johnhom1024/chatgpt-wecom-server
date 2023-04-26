@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import { SocksProxyAgent } from 'socks-proxy-agent';
-import { SetProxyOptions } from '../../types/index.js';
+import { SetProxyOptions } from '../types/index.js';
 import httpsProxyAgent from 'https-proxy-agent';
 
 const { HttpsProxyAgent } = httpsProxyAgent;
