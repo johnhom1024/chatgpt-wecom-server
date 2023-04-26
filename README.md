@@ -89,7 +89,7 @@ http://<你的域名或者公网IP>/wecom/getMessage
 
 这个后端服务是通过直接调用`openai`库里提供的api，具体可以通过这里查看使用说明：[api-reference](https://platform.openai.com/docs/api-reference/completions/create)
 
-暂时还没有上下文衔接的功能，后面考虑直接使用已经对`openai`的api封装好的一个库：[chatgpt-api](https://github.com/transitive-bullshit/chatgpt-api)
+已经引入了[chatgpt-api](https://github.com/transitive-bullshit/chatgpt-api)，支持上下文衔接的功能
 
 
 ## TODO
