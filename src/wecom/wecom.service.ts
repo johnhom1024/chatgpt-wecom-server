@@ -67,7 +67,6 @@ export class WecomService {
       Encrypt,
     );
 
-    // 从xml数据中提取出对应的信息
     const { xml: messageData } = await parseStringPromise(message, {
       explicitArray: false,
     });
@@ -90,7 +89,8 @@ export class WecomService {
   async sendMessage({ touser, content }: { touser: string; content: string }) {
     // 获取access_token
     await this.getWecomAccessToken();
-
+    this.logger.log(`发送给用户id：${touser}`);
+    this.logger.log(`发送内容：${content}`);
     const { data = {} } = await axios.post(
       `https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=${this.access_token}`,
       {

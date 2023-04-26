@@ -13,7 +13,7 @@ import { WecomService } from './wecom/wecom.service.js';
 import { WecomController } from './wecom/wecom.controller.js';
 import { XMLMiddleware } from './xml.middleware.js';
 import { ChatGPTAPIService } from './chatgptapi/chatgptapi.service.js';
-import { ChatgptapiController } from './chatgptapi/chatgptapi.controller.js';
+import { ChatGPTAPIController } from './chatgptapi/chatgptapi.controller.js';
 
 @Module({
   imports: [ConfigModule.forRoot()],
@@ -21,7 +21,7 @@ import { ChatgptapiController } from './chatgptapi/chatgptapi.controller.js';
     AppController,
     ChatGPTController,
     WecomController,
-    ChatgptapiController,
+    ChatGPTAPIController,
   ],
   providers: [AppService, ChatGPTService, WecomService, ChatGPTAPIService],
 })
