@@ -2,7 +2,7 @@ import { Logger, Injectable, HttpException } from '@nestjs/common';
 import axios from 'axios';
 import { decrypt, getSignature } from '@wecom/crypto';
 import { parseStringPromise } from 'xml2js';
-
+import { WecomErrorCode } from '../types/index.js'
 @Injectable()
 export class WecomService {
   private readonly logger = new Logger(WecomService.name);
@@ -104,12 +104,16 @@ export class WecomService {
     const { errcode, errmsg } = data;
 
     // token 过期
-    if ([40014, 42201, 42001].includes(errcode)) {
+    if ([WecomErrorCode.token_expired].includes(errcode)) {
       this.logger.error('token已过期，重新发送');
+      this.logger.error(errmsg);
       this.access_token = '';
-      this.sendMessage({ touser, content });
+      // 间隔1s钟再请求
+      setTimeout(() => {
+        this.sendMessage({ touser, content });
+      }, 1000);
     } else if (errmsg !== 'ok') {
-      this.logger.error('企业微信发送错误');
+      this.logger.error(`企业微信发送错误，错误码: ${errcode}`);
       this.logger.error(errmsg);
     }
   }
