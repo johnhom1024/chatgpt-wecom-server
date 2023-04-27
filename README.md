@@ -9,11 +9,11 @@
 
 - 在企业微信的应用列表中
 
-![image](https://github.com/johnhom1024/chatgpt-wecom-server/raw/main/images/chatgpt_in_wecom.jpg)
+<img src=https://github.com/johnhom1024/chatgpt-wecom-server/raw/main/images/chatgpt_in_wecom.jpg width="600">
 
 - 在企业微信与ChatGPT对话
 
-![image](https://github.com/johnhom1024/chatgpt-wecom-server/raw/main/images/chat_with_application.jpg)
+<img src=https://github.com/johnhom1024/chatgpt-wecom-server/raw/main/images/chat_with_application.jpg width="600">
 
 ## 使用说明
 
@@ -67,12 +67,40 @@ $ pnpm start:prod
 
 > 注意：Nest框架在执行build时，并不会把依赖一起打包到dist文件中，所以这里执行`pnpm start:prod`时，会用到当前目录下的`node_modules`文件夹里的依赖文件。
 
+
+### 使用docker-compose
+
+```
+version: '3.9'
+services:
+  chatgpt:
+    image: johnhom1024/chatgpt-wecom-server:latest
+    ports:
+      - 3000:3000
+    environment:
+      # API 的 Secret key
+      - OPENAI_API_KEY=XXX
+      # 企业 corp_id
+      - CORP_ID=XXX
+      # 当前应用的secret
+      - APP_SECRET_KEY=XXX
+      # 获取用户消息的token
+      - WECOM_GET_MESSAGE_TOKEN=XXX
+      # 消息加密的密钥
+      - WECOM_ENCODING_AES_KEY=XXX
+      # 应用的 id
+      - WECOM_AGENT_ID=XXX
+      # 将fetch请求代理到可访问openai的URL上
+      - HTTPS_PROXY=XXX
+```
+
+只需要将对应的变量填入到docker-compose.yml中即可
+
 ### 企业微信接入
 
 这里是最后一步啦，只在自建应用详情👉接收消息👉API接收消息，在**接收消息服务器配置**中的**URL**项：
 
-
-![image](https://github.com/johnhom1024/chatgpt-wecom-server/raw/main/images/accept_message_setting.jpg)
+<img src=https://github.com/johnhom1024/chatgpt-wecom-server/raw/main/images/accept_message_setting.jpg width="600">
 
 填入以下URL：
 
@@ -85,15 +113,27 @@ http://<你的域名或者公网IP>/wecom/getMessage
 
 最后，你就可以直接在企业微信app👉工作台里，跟ChatGPT进行开心的对话啦。
 
+### 内置系统指令
+
+你可以发送`#系统指令`来获取当前企业微信内置的系统指令：
+
+<img src=https://github.com/johnhom1024/chatgpt-wecom-server/raw/main/images/show_system_order.jpg width="600">
+
+目前已存在以下的内置指令：
+
+- `#系统指令`：展示系统内置的指令
+- `#清楚上下文`：清楚当前用户的上下文
+
+等待添加更多的系统指令。
 ## 其他说明
 
 这个后端服务是通过直接调用`openai`库里提供的api，具体可以通过这里查看使用说明：[api-reference](https://platform.openai.com/docs/api-reference/completions/create)
 
 已经引入了[chatgpt-api](https://github.com/transitive-bullshit/chatgpt-api)，支持上下文衔接的功能
 
-
 ## TODO
 
 - [x] 支持上下文衔接
+- [x] 通过发送消息清空当前用户上下文
 - [ ] 通过发送消息查看和切换可用的语言模型
 - [ ] 通过发送消息查看token的使用量
