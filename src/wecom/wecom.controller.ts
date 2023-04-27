@@ -81,27 +81,51 @@ export class WecomController {
    * @description: 使用chatgpt 的另一个api进行回复，支持上下文回复
    */
   async replyUserV2({ message = '', touser }) {
-    this.logger.log(
-      `存储的用户id以及message：`,
-    );
+    let responseMessage = '';
 
-    this.logger.log(this.UserIdToParentMessageIdMap);
-    
-    const parentMessageId = this.UserIdToParentMessageIdMap[touser] || '';
+    responseMessage = this.handleMessage({ message, touser });
 
-    // 根据拿到用户发送的消息，转发给 chatgpt
-    const { content = '', response } = await this.chatGPTAPI.sendMessage({
-      prompt: message,
-      options: {
-        parentMessageId,
-      },
-    });
+    if (!responseMessage) {
+      const parentMessageId = this.UserIdToParentMessageIdMap[touser] || '';
+      // 根据拿到用户发送的消息，转发给 chatgpt
+      const { content = '', response } = await this.chatGPTAPI.sendMessage({
+        prompt: message,
+        options: {
+          parentMessageId,
+        },
+      });
 
-    // 当前的messageId
-    const { id } = response;
-    // 覆盖之前的messageId
-    this.UserIdToParentMessageIdMap[touser] = id;
+      // 当前的messageId
+      const { id } = response;
+      // 覆盖之前的messageId
+      this.UserIdToParentMessageIdMap[touser] = id;
+      responseMessage = content;
+    }
 
-    await this.weCom.sendMessage({ touser, content });
+    await this.weCom.sendMessage({ touser, content: responseMessage });
+  }
+
+  /**
+   * @description: 根据用户发送的消息进行相应的处理
+   * @param {*} param1
+   * @return {*}
+   */
+  handleMessage({ message = '', touser = '' }) {
+    let responseMessage = '';
+    switch (message) {
+      case '#系统指令':
+        responseMessage = `目前存在以下的系统指令：
+#清除上下文
+`;
+        break;
+      case '#清除上下文':
+        this.UserIdToParentMessageIdMap[touser] = '';
+        responseMessage = '已清除上下文';
+        break;
+      default:
+        break;
+    }
+
+    return responseMessage;
   }
 }
