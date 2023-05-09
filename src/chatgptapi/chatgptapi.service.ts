@@ -4,7 +4,7 @@
  */
 
 import { Injectable, Logger } from '@nestjs/common';
-import { ChatGPTAPI } from 'chatgpt';
+import { ChatGPTAPI, ChatMessage } from 'chatgpt';
 import { setupProxy } from './utils.js';
 
 interface MessageOptions {
@@ -14,6 +14,7 @@ interface MessageOptions {
     user?: string;
     // 上一个message的id
     parentMessageId?: string;
+    process?: (partialResponse: ChatMessage) => void
   };
   completionParams?: {
     model?: string;
@@ -24,7 +25,7 @@ interface MessageOptions {
 
 @Injectable()
 export class ChatGPTAPIService {
-  api: any;
+  api: ChatGPTAPI;
 
   private readonly logger = new Logger(ChatGPTAPIService.name);
 
@@ -45,10 +46,13 @@ export class ChatGPTAPIService {
   }
 
   async sendMessage({ prompt = '', options }: MessageOptions) {
-    const { parentMessageId = '' } = options || {};
+    const { parentMessageId = '', process } = options || {};
     try {
       const res = await this.api.sendMessage(prompt, {
         parentMessageId,
+        onProgress: (partialResponse) => {
+          process?.(partialResponse);
+        }
       });
       this.logger.log(res);
       const machineResponse = res.text;
