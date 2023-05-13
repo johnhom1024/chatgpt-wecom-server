@@ -91,6 +91,7 @@ export class WecomService {
     await this.getWecomAccessToken();
     this.logger.log(`发送给用户id：${touser}`);
     this.logger.log(`发送内容：${content}`);
+    // todo
     const { data = {} } = await axios.post(
       `https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=${this.access_token}`,
       {
@@ -99,6 +100,11 @@ export class WecomService {
         agentid: process.env.WECOM_AGENT_ID,
         text: { content },
       },
+      {
+        proxy: false,
+        httpAgent: false,
+        httpsAgent: false,
+      }
     );
 
     const { errcode, errmsg } = data;
