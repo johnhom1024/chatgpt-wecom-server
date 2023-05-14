@@ -79,6 +79,29 @@ export class WecomService {
       touser: FromUserName,
     };
   }
+ /**
+  * 
+  * @param user 发送给的用户
+  * @param content 
+  * @returns 
+  */
+  async sendMsgByWecom(user, content) {
+    const { data = {} } = await axios.post(
+      `https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=${this.access_token}`,
+      {
+        user,
+        msgtype: 'text',
+        agentid: process.env.WECOM_AGENT_ID,
+        text: { content },
+      },
+      {
+        proxy: false,
+        httpAgent: false,
+        httpsAgent: false,
+      }
+    );
+    return data
+  }
 
   /**
    * @description:
@@ -92,21 +115,8 @@ export class WecomService {
     this.logger.log(`发送给用户id：${touser}`);
     this.logger.log(`发送内容：${content}`);
     // todo
-    const { data = {} } = await axios.post(
-      `https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=${this.access_token}`,
-      {
-        touser,
-        msgtype: 'text',
-        agentid: process.env.WECOM_AGENT_ID,
-        text: { content },
-      },
-      {
-        proxy: false,
-        httpAgent: false,
-        httpsAgent: false,
-      }
-    );
-
+    
+    const data = await this.sendMsgByWecom(touser, content);
     const { errcode, errmsg } = data;
 
     // token 过期
@@ -121,6 +131,9 @@ export class WecomService {
     } else if (errmsg !== 'ok') {
       this.logger.error(`企业微信发送错误，错误码: ${errcode}`);
       this.logger.error(errmsg);
+      setTimeout(() => {
+        this.sendMsgByWecom( touser, content );
+      }, 1000);
     }
   }
 }
