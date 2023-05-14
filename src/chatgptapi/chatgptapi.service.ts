@@ -44,16 +44,6 @@ export class ChatGPTAPIService {
       ...options,
     });
   }
-
-  async sendMsgToChatgpt() {
-    const res = await this.api.sendMessage(prompt, {
-      parentMessageId,
-      onProgress: (partialResponse) => {
-        process?.(partialResponse);
-      }
-    });
-  }
-
   async sendMessage({ prompt = '', options }: MessageOptions, retry: Number = 0) {
     const { parentMessageId = '', process } = options || {};
     try {
