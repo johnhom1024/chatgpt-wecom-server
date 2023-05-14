@@ -13,5 +13,5 @@ else
     docker build -t $pkgName:$pkgVersion ./
 fi
 dockerTag=${pkgName}:${pkgVersion}
-docker tag $pkgName:$pkgVersion $dockerTag 
-docker push $dockerTag
+#docker tag $pkgName:$pkgVersion $dockerTag 
+#docker push $dockerTag

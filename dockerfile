@@ -18,13 +18,13 @@ WORKDIR /app
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
 RUN pnpm build
-RUN ls -al .
 
 FROM base AS deploy
 
 WORKDIR /app
 COPY --from=dependencies /app/package.json ./package.json
 COPY --from=build /app/dist ./dist
+COPY ./.env ./
 COPY --from=build /app/node_modules ./node_modules
 
 
