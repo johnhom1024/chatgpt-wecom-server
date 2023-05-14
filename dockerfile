@@ -8,6 +8,7 @@ WORKDIR /app
 COPY ./package.json /app
 COPY ./pnpm-lock.yaml /app
 COPY ./tsconfig.json /app
+COPY ./.env /app
 COPY ./tsconfig.build.json /app
 RUN pnpm install
 
