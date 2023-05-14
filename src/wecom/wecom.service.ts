@@ -89,7 +89,7 @@ export class WecomService {
     const { data = {} } = await axios.post(
       `https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=${this.access_token}`,
       {
-        user,
+        touser: user,
         msgtype: 'text',
         agentid: process.env.WECOM_AGENT_ID,
         text: { content },
