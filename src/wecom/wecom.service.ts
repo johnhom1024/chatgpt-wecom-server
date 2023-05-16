@@ -23,6 +23,11 @@ export class WecomService {
       errmsg = '',
     } = (await axios.get(
       `https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=${process.env.CORP_ID}&corpsecret=${process.env.APP_SECRET_KEY}`,
+      {
+        proxy: false,
+        httpAgent: false,
+        httpsAgent: false,
+      }
     )) as { data: any; errcode: number; errmsg: string };
 
     if (errcode !== 0) {
@@ -122,7 +127,7 @@ export class WecomService {
     // token 过期
     if ([WecomErrorCode.token_expired].includes(errcode)) {
       this.logger.error('token已过期，重新发送');
-      this.logger.error(errmsg);
+      this.logger.error(JSON.stringify(data));
       this.access_token = '';
       // 间隔1s钟再请求
       setTimeout(() => {
@@ -130,7 +135,7 @@ export class WecomService {
       }, 1000);
     } else if (errmsg !== 'ok') {
       this.logger.error(`企业微信发送错误，错误码: ${errcode}`);
-      this.logger.error(errmsg);
+      this.logger.error(data);
       setTimeout(() => {
         this.sendMsgByWecom( touser, content );
       }, 1000);
