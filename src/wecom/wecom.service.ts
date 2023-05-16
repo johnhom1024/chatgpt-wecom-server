@@ -135,7 +135,6 @@ export class WecomService {
       }, 1000);
     } else if (errmsg !== 'ok') {
       this.logger.error(`企业微信发送错误，错误码: ${errcode}`);
-      this.logger.error(data);
       setTimeout(() => {
         this.sendMsgByWecom( touser, content );
       }, 1000);
