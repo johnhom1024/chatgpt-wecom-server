@@ -1,21 +1,21 @@
 version: '3'
 services:
   chatgpt:
-    image: johnhom1024/chatgpt-wecom-server:latest
+    image: chatgpt-wecom-server:1.0.0
     ports:
       - "3000:3000"
-    environment:
-      # API 的 Secret key
-      - OPENAI_API_KEY=XXX
-      # 企业 corp_id
-      - CORP_ID=XXX
-      # 当前应用的secret
-      - APP_SECRET_KEY=XXX
-      # 获取用户消息的token
-      - WECOM_GET_MESSAGE_TOKEN=XXX
-      # 消息加密的密钥
-      - WECOM_ENCODING_AES_KEY=XXX
-      # 应用的 id
-      - WECOM_AGENT_ID=XXX
-      # 将fetch请求代理到可访问openai的URL上
-      - HTTPS_PROXY=XXX
+    # environment:
+      # # API 的 Secret key
+      # - OPENAI_API_KEY=XXX
+      # # 企业 corp_id
+      # - CORP_ID=XXX
+      # # 当前应用的secret
+      # - APP_SECRET_KEY=XXX
+      # # 获取用户消息的token
+      # - WECOM_GET_MESSAGE_TOKEN=XXX
+      # # 消息加密的密钥
+      # - WECOM_ENCODING_AES_KEY=XXX
+      # # 应用的 id
+      # - WECOM_AGENT_ID=XXX
+      # # 将fetch请求代理到可访问openai的URL上
+      # - HTTPS_PROXY=XXX

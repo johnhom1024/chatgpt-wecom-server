@@ -40,33 +40,39 @@ export class ChatGPTAPIService {
     setupProxy(options);
     this.api = new ChatGPTAPI({
       apiKey: process.env.OPENAI_API_KEY,
-      debug: true,
+      debug: false,
       ...options,
     });
   }
-
-  async sendMessage({ prompt = '', options }: MessageOptions) {
+  async sendMessage({ prompt = '', options }: MessageOptions, retry: Number = 0) {
     const { parentMessageId = '', process } = options || {};
     try {
       const res = await this.api.sendMessage(prompt, {
         parentMessageId,
         onProgress: (partialResponse) => {
           process?.(partialResponse);
-        }
+        },
+        timeoutMs: 30*1000
       });
       this.logger.log(res);
       const machineResponse = res.text;
       return {
         response: res,
         content: machineResponse,
+        status: 200,
       };
     } catch (error) {
-      this.logger.error('请求出错');
-      this.logger.error(error);
-      return {
-        response: error,
-        content: '请求chatgpt错误',
-      };
+
+      const data = await this.sendMessage({prompt, options})
+      return data;
+      
+      // this.logger.error('请求出错');
+      // this.logger.error(error);
+      // return {
+      //   response: error,
+      //   content: '请求chatgpt错误',
+      //   status: 500
+      // };
     }
   }
 }
