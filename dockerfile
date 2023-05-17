@@ -1,6 +1,6 @@
 FROM node:lts-alpine AS base
 
-RUN npm install pnpm -g
+RUN npm install pnpm -g --registry=https://registry.npmmirror.com
 
 FROM base AS dependencies
 
@@ -9,7 +9,7 @@ COPY ./package.json /app
 COPY ./pnpm-lock.yaml /app
 COPY ./tsconfig.json /app
 COPY ./tsconfig.build.json /app
-RUN pnpm install
+RUN pnpm install --registry=https://registry.npmmirror.com
 
 FROM base AS build
 
