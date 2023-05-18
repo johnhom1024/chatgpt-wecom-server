@@ -76,8 +76,8 @@ export class WecomService {
       explicitArray: false,
     });
     const { FromUserName = '', Content = '' } = messageData;
-    this.logger.log(`FromUserName: ${FromUserName}`);
-    this.logger.log(`Content: ${Content}`);
+    this.logger.log(`接收到 qw 用户名称: ${FromUserName}`);
+    this.logger.log(`接收到 qw 用户信息: ${Content}`);
 
     return {
       message: Content,
@@ -118,7 +118,7 @@ export class WecomService {
     // 获取access_token
     await this.getWecomAccessToken();
     this.logger.log(`发送给用户id：${touser}`);
-    this.logger.log(`发送内容：${content}`);
+    this.logger.log(`chatgpt获取的内容：${content}`);
     // todo
     
     const data = await this.sendMsgByWecom(touser, content);

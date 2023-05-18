@@ -24,29 +24,11 @@ export class WecomController {
 
   private readonly logger = new Logger(WecomController.name);
 
-  @Get('getMessage')
-  async testGetMessage(@Query() query) {
-    const message = this.weCom.testGetMessage(query);
-
-    return message;
-  }
-
   @Get('getToken')
   async testGetToken() {
     const access_token = await this.weCom.getWecomAccessToken();
 
     return access_token;
-  }
-
-  @Post('getMessage')
-  @HttpCode(200)
-  async getMessage(@Body('xml') xmlData, @Query() query) {
-    const data = await this.weCom.getMessage(query, xmlData);
-
-    const { message = '', touser = '' } = data;
-    this.replyUser({ message, touser });
-    // 这里怎么返回都行，只要 http 的状态码返回 200 就行了
-    return data;
   }
 
   @Get('getMessageV2')
@@ -88,17 +70,18 @@ export class WecomController {
     if (!responseMessage) {
       const parentMessageId = this.UserIdToParentMessageIdMap[touser] || '';
       // 根据拿到用户发送的消息，转发给 chatgpt
+      this.logger.log(`开始发送${touser} 请求内容给 chatgpt 内容`)
       const { content = '', response } = await this.chatGPTAPI.sendMessage({
         prompt: message,
         options: {
           parentMessageId,
         },
       });
-
       // 当前的messageId
       const { id } = response;
       // 覆盖之前的messageId
       this.UserIdToParentMessageIdMap[touser] = id;
+      this.logger.log(`发送${touser}内容给 chatgpt 内容完毕`)
       responseMessage = content;
     }
 
