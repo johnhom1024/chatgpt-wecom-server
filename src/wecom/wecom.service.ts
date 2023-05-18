@@ -117,8 +117,7 @@ export class WecomService {
   async sendMessage({ touser, content }: { touser: string; content: string }) {
     // 获取access_token
     await this.getWecomAccessToken();
-    this.logger.log(`发送给用户id：${touser}`);
-    this.logger.log(`chatgpt获取的内容：${content}`);
+    this.logger.log(`发送信息给用户【${touser}】`);
     // todo
     
     const data = await this.sendMsgByWecom(touser, content);
