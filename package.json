@@ -1,6 +1,6 @@
 {
   "name": "chatgpt-wecom-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "一个搭载了chatgpt、用于企业微信应用消息接收和发送的Node服务",
   "author": "johnhom",
   "main": "src/index.js",
