@@ -1,7 +1,7 @@
 version: '3'
 services:
   chatgpt:
-    image: chatgpt-wecom-server:1.0.0
+    image: chatgpt-wecom-server
     ports:
       - "3000:3000"
     # environment:
