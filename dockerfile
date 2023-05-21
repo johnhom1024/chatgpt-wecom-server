@@ -1,9 +1,9 @@
 FROM node:lts-alpine AS base
 
 WORKDIR /app
-COPY /app/node_modules ./node_modules
-COPY /app/package.json ./package.json
-COPY /app/dist ./dist
+COPY ./node_modules /app/node_modules 
+COPY ./package.json /app/package.json 
+COPY ./dist /app/dist 
 COPY ./.env ./
 
 
