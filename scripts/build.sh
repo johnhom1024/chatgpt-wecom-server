@@ -5,6 +5,9 @@ pkgName=$(grep -oE '"name":\s*"[^"]+' -m 1 ./package.json | grep -oE '[^"]+$')
 
 echo "Attention: This script should only be executed in generated deploy folder."
 
+pnpm i
+pnpm build
+
 
 if [[ $# > 0 ]]; then
     export DOCKER_CLI_EXPERIMENTAL=enabled
