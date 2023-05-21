@@ -54,7 +54,7 @@ export class ChatGPTAPIService {
         },
         timeoutMs: 30*1000
       });
-      this.logger.log(`chatgpt 获取内容 ${res.id}`, res.detail);
+      this.logger.log(`chatgpt 获取内容 ${res.id}, chatgpt detail >>>`, res.detail);
       const machineResponse = res.text;
       return {
         response: res,

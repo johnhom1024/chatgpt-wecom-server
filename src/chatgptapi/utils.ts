@@ -14,7 +14,6 @@ export function setupProxy(options: SetProxyOptions) {
     isNotEmptyString(process.env.SOCKS_PROXY_HOST) &&
     isNotEmptyString(process.env.SOCKS_PROXY_PORT)
   ) {
-    console.log(`--------------------  ${httpsProxy}     --------------------- `)
     const agent = new SocksProxyAgent({
       hostname: process.env.SOCKS_PROXY_HOST,
       port: process.env.SOCKS_PROXY_PORT,
