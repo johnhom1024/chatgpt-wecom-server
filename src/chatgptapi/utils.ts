@@ -32,6 +32,7 @@ export function setupProxy(options: SetProxyOptions) {
     isNotEmptyString(process.env.ALL_PROXY)
   ) {
     const httpsProxy = process.env.HTTPS_PROXY || process.env.ALL_PROXY;
+    console.log(`-------------------- 当前代理地址：  ${httpsProxy}     --------------------- `)
     if (httpsProxy) {
       const agent = new HttpsProxyAgent(httpsProxy);
       options.fetch = (url, options) => {
